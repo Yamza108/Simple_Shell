@@ -2,14 +2,14 @@
 
 void display_prompt(char **av, char **env)
 {
-	char *str = NULL;
+	char *str = NULL; 
 	char *argv[] = {NULL, NULL};
+       	char error_msg[100];
 	ssize_t n_chr;
 	size_t n = 0;
 	int status, i = 0;
-	pid_t omomo_pid;
-	char error_msg[100];
-
+	pid_t child_pid;
+	
 	while (1)
 	{
 		write(STDOUT_FILENO, "& ", 2);
@@ -20,6 +20,8 @@ void display_prompt(char **av, char **env)
 			free(str);
 			exit(EXIT_FAILURE);
 		}
+		if (n_chr == '\0')
+			break;
 
 		while (str[i])
 		{
@@ -31,13 +33,13 @@ void display_prompt(char **av, char **env)
 
 		}
 		argv[0] = str;
-		omomo_pid = fork();
-		if (omomo_pid == -1)
+		child_pid = fork();
+		if (child_pid == -1)
 		{
 			free(str);
 			exit(EXIT_FAILURE);
 		}
-		if (omomo_pid == 0)
+		if (child_pid == 0)
 		{
 			if (execve(argv[0], argv, env) == -1)
 			{
