@@ -9,9 +9,12 @@
 #include <string.h>
 
 void _write(char *str, int stm);
-ssize_t write(int fd, const void *buf, size_t count);
-ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 void display_prompt(char **av, char **env);
+int _execute(char *argv, char **ar);
+char **_tokenizer(char *ab, char *delim);
+void prompt(void);
+char *_input();
+
 
 
 #endif
